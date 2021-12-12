@@ -1,0 +1,11 @@
+node_modules
+package-lock.json
+
+!.gitkeep
+
+Thumbs.db
+Desktop.ini
+*.DS_Store
+*.log
+._*
+.idea

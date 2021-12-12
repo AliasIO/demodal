@@ -1,0 +1,11 @@
+{
+  "*": [
+    {
+      "if $(body.modal-open) $(div.modal) $(div.modal-backdrop)": {
+        "div.modal": "remove",
+        "div.modal-backdrop": "remove",
+        "body": "removeClass modal-open"
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Demodal",
+  "description": "Remove annoying, screen-blocking modals.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background/background.js"
+  },
+ "content_scripts": [
+   {
+     "matches": ["https://*/*", "http://*/*"],
+     "js": ["content/content.js"]
+   }
+ ],
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "256": "/images/icon-256.png"
+    }
+  },
+  "options_page": "options/options.html"
+}
