@@ -1,5 +1,5 @@
 {
-  "nytimes.com *.nytimes.com": {
+  "*.nytimes.com": {
     "if $(#gateway-content)": {
       "#gateway-content": "remove",
       "#app > div > div": "removeClass *",

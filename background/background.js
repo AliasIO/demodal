@@ -1,6 +1,14 @@
 /* globals chrome */
 
-const modalTypes = ['offers', 'paywalls']
+const modalTypes = [
+  'offer',
+  'paywall',
+  'email',
+  'signup',
+  'consent',
+  'donate',
+  'message',
+]
 
 const definitions = []
 
@@ -113,9 +121,15 @@ async function loadDefinitions() {
 const Background = {
   getDefinitions(url) {
     return definitions
-      .filter(({ regExps }) => regExps.some((regExp) => regExp.test(url)))
+      .filter(({ regExps }) =>
+        regExps.some((regExp) => regExp.test(url) || regExp.test(`www.${url}`))
+      )
       .map(({ definitions }) => definitions)
       .flat()
+  },
+
+  getModalTypes() {
+    return modalTypes
   },
 
   setBadge(text) {
@@ -171,5 +185,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 loadDefinitions()
 
 chrome.action.setBadgeBackgroundColor({
-  color: '#2196F3',
+  color: '#0068b3',
 })

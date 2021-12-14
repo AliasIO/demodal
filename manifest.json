@@ -3,21 +3,27 @@
   "description": "Remove annoying, screen-blocking modals.",
   "version": "1.0",
   "manifest_version": 3,
+  "default_locale": "en",
   "background": {
     "service_worker": "background/background.js"
   },
- "content_scripts": [
-   {
-     "matches": ["https://*/*", "http://*/*"],
-     "js": ["content/content.js"]
-   }
- ],
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["content/content.js"]
+    }
+  ],
   "permissions": ["storage", "activeTab", "scripting"],
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
+      "128": "/images/icon-256.png",
       "256": "/images/icon-256.png"
     }
   },
-  "options_page": "options/options.html"
+  "options_page": "options/options.html",
+  "icons": {
+    "128": "/images/icon-256.png",
+    "256": "/images/icon-256.png"
+  }
 }

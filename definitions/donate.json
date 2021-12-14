@@ -1,0 +1,5 @@
+{
+  "*.theguardian.com": {
+    ".site-message--banner": "remove"
+  }
+}

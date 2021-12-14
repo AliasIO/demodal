@@ -1,13 +1,69 @@
 <!DOCTYPE html>
 <html>
   <head>
-		<title></title>
+    <title></title>
 
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-		Hello, world!
+    <div class="header">
+      <img class="header__logo" src="../images/icon-mono-256.png" alt="" />
 
-		<script src="popup.js"></script>
+      <h1 class="header__title">Demodal</h1>
+    </div>
+
+    <div class="content">
+      <div id="options" class="container">
+        <label>
+          <input id="allowed" type="checkbox"> <span data-i18n="allowOnWebsite"></span>
+        </label>
+      </div>
+
+      <div id="blocked-page" class="container">
+        <h2 data-i18n="blockedModalsPage"></h2>
+
+        <div id="blocked-page__missing" class="hidden" data-i18n="modalStatsEmpty"></div>
+
+        <div id="blocked-page__stats" class="card">
+          <table>
+            <thead>
+              <tr>
+                <th width="50%">
+                  <span data-i18n="modalType"></span>
+                </th>
+                <th width="50%">
+                  <span data-i18n="blockedModals"></span>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="blocked-total" class="container">
+        <h2 data-i18n="blockedModalsTotal"></h2>
+
+        <div id="blocked-total__missing" class="hidden" data-i18n="modalStatsEmpty"></div>
+
+        <div id="blocked-total__stats" class="card">
+          <table>
+            <thead>
+              <tr>
+                <th width="50%">
+                  <span data-i18n="modalType"></span>
+                </th>
+                <th width="50%">
+                  <span data-i18n="blockedModals"></span>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
   </body>
 </html>

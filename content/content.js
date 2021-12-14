@@ -7,14 +7,19 @@ const blockedModals = {}
 
 const Background = {
   call(func, ...args) {
-    return new Promise((resolve) =>
-      chrome.runtime.sendMessage({ func, args }, resolve)
+    return new Promise((resolve, reject) =>
+      chrome.runtime.sendMessage({ func, args }, (response) =>
+        chrome.runtime.lastError
+          ? reject(new Error(chrome.runtime.lastError.message))
+          : resolve(response)
+      )
     )
   },
 }
 
 const Content = {
   getBlockedModals() {
+    log('yyy', { blockedModals })
     return blockedModals
   },
 }
@@ -53,13 +58,11 @@ function debounce(func, wait) {
 
 const run = () => {
   try {
-    log('run')
-
     definitions.forEach((definition) => {
-      const { type, conditions, actions, run } = definition
+      const { type, conditions, actions, completed } = definition
 
       if (
-        run ||
+        completed ||
         !conditions.every(({ func, arg }) => {
           if (Functions.func) {
             throw new Error(`Function does not exist: Functions.${func}`)
@@ -71,8 +74,6 @@ const run = () => {
         return
       }
 
-      definition.run = true
-
       let found = false
 
       actions.forEach(({ selector, action }) => {
@@ -83,7 +84,7 @@ const run = () => {
 
           const [func, ...args] = action.split(' ')
 
-          log(`Action: ${func}(${args.join(', ')}) on ${selector}`)
+          log(`action: ${func}(${args.join(', ')}) on ${selector}`)
 
           switch (func) {
             case 'remove':
@@ -109,12 +110,25 @@ const run = () => {
       })
 
       if (found) {
+        definition.completed = true
+
         blockedModals[type] = (blockedModals[type] || 0) + 1
 
         Background.call(
           'setBadge',
           Object.values(blockedModals).reduce((sum, value) => sum + value, 0)
         )
+
+        // Update all-time totals
+        chrome.storage.sync
+          .get({
+            blockedModals: {},
+          })
+          .then(({ blockedModals }) => {
+            blockedModals[type] = (blockedModals[type] || 0) + 1
+
+            chrome.storage.sync.set({ blockedModals })
+          })
       }
     })
   } catch (error) {

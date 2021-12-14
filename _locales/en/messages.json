@@ -1,0 +1,14 @@
+{
+  "modalType": { "message": "Type" },
+  "blockedModals": { "message": "Blocked" },
+  "blockedModalsPage": { "message": "Page" },
+  "blockedModalsTotal": { "message": "All time" },
+  "modalTypeOffer": { "message": "Offers" },
+  "modalTypePaywall": { "message": "Paywalls" },
+  "modalTypeConsent": { "message": "Consent requests" },
+  "modalTypeSignup": { "message": "Signup prompts" },
+  "modalTypeEmail": { "message": "Email prompts" },
+  "modalTypeDonate": { "message": "Donation requests" },
+  "modalStatsEmpty": { "message": "No modals blocked" },
+  "allowOnWebsite": { "message": "Allow modals on this website" }
+}
