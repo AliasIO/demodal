@@ -6,6 +6,7 @@ const definitions = []
 const blockedModals = {}
 
 const Background = {
+  // Call background script functions
   call(func, ...args) {
     return new Promise((resolve, reject) =>
       chrome.runtime.sendMessage({ func, args }, (response) =>
@@ -17,10 +18,31 @@ const Background = {
   },
 }
 
+// Functions that can be called from the popup script
 const Content = {
   getBlockedModals() {
-    log('yyy', { blockedModals })
     return blockedModals
+  },
+
+  getUrl() {
+    return window.location.href
+  },
+
+  reload() {
+    window.location.reload()
+  },
+
+  async isAllowed(url = window.location.href) {
+    // Check if hostname is in allow list
+    const { allowList } = await chrome.storage.sync.get({
+      allowList: [],
+    })
+
+    let { hostname } = new URL(url)
+
+    hostname = hostname.replace(/^www\./, '')
+
+    return allowList.includes(hostname)
   },
 }
 
@@ -30,6 +52,7 @@ const Functions = {
   },
 }
 
+// Log messages in the background script console
 function log(...messages) {
   const error = messages[0]
 
@@ -56,8 +79,12 @@ function debounce(func, wait) {
   }
 }
 
-const run = () => {
+const run = async () => {
   try {
+    if (await Content.isAllowed()) {
+      return
+    }
+
     definitions.forEach((definition) => {
       const { type, conditions, actions, completed } = definition
 
@@ -84,7 +111,7 @@ const run = () => {
 
           const [func, ...args] = action.split(' ')
 
-          log(`action: ${func}(${args.join(', ')}) on ${selector}`)
+          log(`action: ${selector}: ${func}(${args.join(', ')})`)
 
           switch (func) {
             case 'remove':
@@ -136,6 +163,7 @@ const run = () => {
   }
 }
 
+// Listen for messages from popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const { func } = request
 
@@ -145,7 +173,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     Promise.resolve(Content[func].call({ request, sender }, ...args))
       .then((response) => {
         // eslint-disable-next-line no-console
-        log(`popup:`, { func, args, response })
+        log(`popup: ${func}(${args.join(', ')})`, response)
 
         sendResponse(response)
       })
@@ -162,7 +190,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       ...(await Background.call('getDefinitions', location.href))
     )
 
-    const runDebounced = debounce(() => run(), 500)
+    const runDebounced = debounce(() => run(), 100)
 
     const mutationObserver = new MutationObserver(() => runDebounced())
 

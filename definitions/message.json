@@ -1,2 +1,6 @@
 {
+  "*.heraldsun.com.au": {
+    ".DialogBox": "remove"
+  }
 }
+

@@ -171,7 +171,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       Promise.resolve(Background[func].call({ request, sender }, ...args))
         .then((response) => {
           // eslint-disable-next-line no-console
-          console.log(`content:`, { func, args, response })
+          console.log(`content: ${func}(${args.join(', ')})`, response)
 
           sendResponse(response)
         })

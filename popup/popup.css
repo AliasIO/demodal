@@ -1,65 +1,5 @@
-:root {
-  --color-primary: #0094ff;
-  --color-primary-dark: #0068b3;
-  --color-primary-light: #e8f5ff;
-  --color-heading: #333;
-  --color-text: #4a4a4a;
-  --color-grey: #ccc;
-  --color-grey-light: #f4f4f4;
-  --color-white: #fff;
-  --radius: 5px;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-* {
-  margin: 0;
-}
-
 body {
-  background-color: var(--color-white);
-  color: var(--color-text);
-  direction: __MSG_@@bidi_dir__;
-	font-family: Helvetica, Arial, sans-serif;
-  font-size: .8rem;
-  line-height: 1.5rem;
-  -webkit-font-smoothing: antialiased;
-  width: 350px;
-}
-
-input, button, textarea, select {
-  font: inherit;
-}
-
-h2 {
-  color: var(--color-heading);
-  font-size: .9rem;
-  margin-bottom: .5rem;
-}
-
-table {
-  border-collapse: collapse;
-  border-style: hidden;
-  border-spacing: 0;
-  width: 100%;
-}
-
-th {
-  color: var(--color-heading);
-  text-align: left;
-}
-
-th, td {
-  border-color: var(--color-grey);
-  border-style: solid;
-  border-width: 1px 0;
-  padding: .25rem .5rem;
-}
-
-.hidden {
-  display: none;
+  width: 500px;
 }
 
 .header {
@@ -80,19 +20,15 @@ th, td {
   text-transform: uppercase;
 }
 
+.header__links {
+  text-align: right;
+  flex: 1 0;
+}
+
 .content {
   opacity: .5;
 }
 
 .content.visible {
   opacity: 1;
-}
-
-.container {
-  margin: 1rem;
-}
-
-.card {
-  border-radius: var(--radius);
-  border: 1px solid var(--color-grey);
 }

@@ -1,2 +1,6 @@
 {
+  "*.smh.com.au *.theage.com.au": {
+    "[data-testid='registration-prompt']": "remove",
+    "#registrationWall": "remove"
+  }
 }
