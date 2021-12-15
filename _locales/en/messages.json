@@ -21,5 +21,7 @@
   "modalStatsEmpty": { "message": "No modals blocked." },
   "allowOnWebsite": { "message": "Allow modals on this website" },
   "options": { "message": "Options" },
-  "optionModalTypesHelp": { "message": "Choose the modal types you wish to block." }
+  "optionModalTypesHelp": { "message": "Choose the modal types you wish to block." },
+  "tabBlockedModals": { "message": "Blocked modals" },
+  "tabDefinitions": { "message": "Definitions" }
 }

@@ -32,3 +32,9 @@ body {
 .content.visible {
   opacity: 1;
 }
+
+#input-definitions {
+  font-family: Monaco, monospace;
+  font-size: .8rem;
+  height: 300px;
+}

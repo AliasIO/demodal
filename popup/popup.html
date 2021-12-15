@@ -22,21 +22,17 @@
     </div>
 
     <div class="tabs">
-      <div class="tab" data-tab="stats">
-        Stats
-      </div>
-      <div class="tab tab--active" data-tab="definitions">
-        Definitions
-      </div>
+      <div class="tab tab--active" data-tab="blocked-modals" data-i18n="tabBlockedModals"></div>
+      <div class="tab" data-tab="definitions" data-i18n="tabDefinitions"></div>
     </div>
 
     <div class="content">
-      <div data-tab-content="stats">
+      <div class="hidden" data-tab-content="blocked-modals">
         <div class="if-connected">
           <div id="options" class="container">
             <div class="checkbox">
               <label>
-                <input id="allowed" type="checkbox"> <span data-i18n="allowOnWebsite"></span>
+                <input id="input-allowed" type="checkbox"> <span data-i18n="allowOnWebsite"></span>
               </label>
             </div>
           </div>
@@ -88,6 +84,17 @@
       </div>
 
       <div data-tab-content="definitions">
+        <div class="container">
+          <label>
+            <div class="label">Definitions</div>
+
+            <div class="help">Write your own custom definitions.</div>
+
+            <textarea id="input-definitions"></textarea>
+          </label>
+
+          <div id="errors-definitions" class="input-error"></div>
+        </div>
       </div>
     </div>
 

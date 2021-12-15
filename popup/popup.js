@@ -2,8 +2,17 @@
 
 const modalTypes = []
 
-const { $, $$, i18n, capitalize, removeChildren, el, Background, Content } =
-  Common
+const {
+  $,
+  $$,
+  i18n,
+  capitalize,
+  removeChildren,
+  el,
+  debounce,
+  Background,
+  Content,
+} = Common
 
 function renderTotals(prefix, totals) {
   let any = false
@@ -50,13 +59,17 @@ i18n()
 
       e.target.classList.add('tab--active')
 
-      $$('[data-tab-content]').forEach(
-        (tabContent) => (tabContent.style.display = 'none')
+      $$('[data-tab-content]').forEach((tabContent) =>
+        tabContent.classList.add('hidden')
       )
 
-      $(`[data-tab-content='${e.target.dataset.tab}']`).style.display = ''
+      $(`[data-tab-content='${e.target.dataset.tab}']`).classList.remove(
+        'hidden'
+      )
     })
   )
+
+  // Blocked modals tab
 
   $('.link-options').addEventListener('click', (e) => {
     e.preventDefault()
@@ -96,9 +109,9 @@ i18n()
     // Add/remove hostnames to allow list
     const allowed = await Content.call('isAllowed')
 
-    $('#allowed').checked = allowed
+    $('#input-allowed').checked = allowed
 
-    $('#allowed').addEventListener('click', async (el) => {
+    $('#input-allowed').addEventListener('click', async (el) => {
       const { allowList } = await chrome.storage.sync.get({
         allowList: [],
       })
@@ -124,6 +137,37 @@ i18n()
       Content.call('reload')
     })
   }
+
+  // Definitions tab
+
+  $('#input-definitions').addEventListener('blur', (event) => {
+    const json = event.target.value
+
+    try {
+      const definitions = JSON.parse(json)
+
+      event.target.value = JSON.stringify(definitions, null, 2)
+    } catch (error) {
+      // Do nothing
+    }
+  })
+
+  $('#input-definitions').addEventListener(
+    'input',
+    debounce((event) => {
+      const json = event.target.value
+
+      try {
+        const definitions = JSON.parse(json)
+
+        $('#errors-definitions').textContent = ''
+      } catch (error) {
+        console.log(error)
+
+        $('#errors-definitions').textContent = error.toString()
+      }
+    }, 500)
+  )
 
   $('.content').classList.add('visible')
 })()

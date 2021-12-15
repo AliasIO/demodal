@@ -10,7 +10,10 @@
   "content_scripts": [
     {
       "matches": ["https://*/*", "http://*/*"],
-      "js": ["content/content.js"]
+      "js": [
+        "common/common.js",
+        "content/content.js"
+      ]
     }
   ],
   "permissions": ["storage", "activeTab", "scripting"],

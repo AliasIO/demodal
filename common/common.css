@@ -36,6 +36,17 @@ input, button, textarea, select {
   font: inherit;
 }
 
+input, textarea {
+  padding: .2rem .5rem;
+  border: 1px solid var(--color-grey);
+  border-radius: var(--radius);
+}
+
+textarea {
+  display: block;
+  width: 100%;
+}
+
 input[type="checkbox"] {
   margin-right: .5rem;
 }
@@ -72,14 +83,24 @@ hr {
   border-width: 1px 0 0 0;
 }
 
+.label {
+  font-weight: bold;
+}
+
 .checkbox label {
   display: flex;
   align-items: center;
 }
 
-.checkbox .help {
+.help {
   font-size: .8rem;
   margin-bottom: .5rem;
+}
+
+.input-error {
+  color: #ff5353;
+  font-size: .8rem;
+  margin-top: .5rem;
 }
 
 .hidden {

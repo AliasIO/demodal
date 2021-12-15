@@ -4,6 +4,22 @@ const Common = {
   $: document.querySelector.bind(document),
   $$: document.querySelectorAll.bind(document),
 
+  debounce(func, wait) {
+    let timeout
+
+    return (...args) => {
+      const debounced = () => {
+        clearTimeout(timeout)
+
+        func(...args)
+      }
+
+      clearTimeout(timeout)
+
+      timeout = setTimeout(debounced, wait)
+    }
+  },
+
   i18n() {
     const elements = Common.$$('[data-i18n]')
 
