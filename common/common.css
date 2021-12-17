@@ -32,7 +32,7 @@ p {
   margin-bottom: 1rem;
 }
 
-a, a:hover, a:active, a:visited {
+a {
   color: var(--color-primary);
 }
 
@@ -172,4 +172,15 @@ hr {
 
 .tab--active {
   border-bottom-color: var(--color-primary);
+}
+
+.alert {
+  background-color: #ffffcc;
+  color: #999900;
+  font-size: .8rem;
+  padding: 1rem;
+}
+
+.alert a, .alert a:hover, .alert a:active, .alert a:visited {
+  color: #999900;
 }

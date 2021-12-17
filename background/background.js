@@ -30,14 +30,27 @@ async function loadDefinitions() {
 }
 
 const Background = {
-  getDefinitions(url) {
-    return definitions
+  async getDefinitions(url) {
+    // Get custom definitions
+    const { customDefinitions: definitionsByType } =
+      await chrome.storage.sync.get({
+        customDefinitions: {},
+      })
+
+    const customDefinitions = transformDefinitions(
+      modalTypes.map((type) => ({
+        type,
+        definitions: definitionsByType[type] || {},
+      }))
+    )
+
+    return [...definitions, ...customDefinitions]
       .filter(({ regExps }) =>
-        regExps.some(
-          (regExp) =>
-            new RegExp(regExp).test(url) ||
-            new RegExp(regExp).test(`www.${url}`)
-        )
+        regExps.some((_regExp) => {
+          const regExp = new RegExp(_regExp, 'i')
+
+          return regExp.test(url) || regExp.test(`www.${url}`)
+        })
       )
       .map(({ definitions }) => definitions)
       .flat()
@@ -93,8 +106,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   return true
 })
 
-loadDefinitions()
-
 chrome.action.setBadgeBackgroundColor({
   color: '#4755b3',
 })
+
+loadDefinitions().then(() =>
+  // eslint-disable-next-line no-console
+  console.log(`init ok: ${definitions.length} definitions`)
+)

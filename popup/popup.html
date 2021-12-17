@@ -28,6 +28,11 @@
 
     <div class="content">
       <div data-tab-content="blocked-modals">
+        <div class="alert">
+          <span data-i18n="blockedModalsHelp"></span>
+          <a href="https://github.com/AliasIO/demodal/blob/master/README.md" target="_blank" data-i18n="readMore"></a>
+        </div>
+
         <div class="if-connected">
           <div id="options" class="container">
             <div class="checkbox">
@@ -83,14 +88,12 @@
 
       <div class="hidden" data-tab-content="definitions">
         <div class="container">
-          <label for="input-definitions">
-            <div class="label">Definitions</div>
+          <p>
+          <span data-i18n="definitionsHelp"></span>
+          <a href="https://github.com/AliasIO/demodal/blob/master/README.md" target="_blank" data-i18n="readMore"></a>
+          </p>
 
-            <div class="help">Write your own custom definitions.</div>
-          </label>
-
-          <select id="input-modal-types">
-          </select>
+          <select id="input-modal-types"></select>
 
           <textarea id="input-definitions" class="code"></textarea>
 

@@ -23,5 +23,8 @@
   "options": { "message": "Options" },
   "optionModalTypesHelp": { "message": "Choose the modal types you wish to block." },
   "tabBlockedModals": { "message": "Blocked modals" },
-  "tabDefinitions": { "message": "Definitions" }
+  "blockedModalsHelp": { "message": "This extension is in early development. If a modal did not get blocked, please report it or create a new definition and share it." },
+  "tabDefinitions": { "message": "Definitions" },
+  "definitionsHelp": { "message": "Did a modal not get blocked? Create your own definition here and share it." },
+  "readMore": { "message": "Read more" }
 }

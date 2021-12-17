@@ -198,7 +198,7 @@ const Common = {
                       }
                     })
 
-                    return { type, conditions, actions }
+                    return { type, conditions: conditions || [], actions }
                   })
                 } catch (error) {
                   throw new Error(`${error.message || error} in ${glob}`)
@@ -227,16 +227,11 @@ const Common = {
           new URL(`https://${glob.replace('*', 'test')}`)
         }
 
-        return String(
-          new RegExp(
-            glob === '*'
-              ? ''
-              : `^https?://${glob
-                  .replace('.', '\\.')
-                  .replace('*', '[^./]+')}\\b`,
-            'i'
-          )
-        )
+        return new RegExp(
+          glob === '*'
+            ? '^https?://.+'
+            : `^https?://${glob.replace('.', '\\.').replace('*', '[^./]+')}\\b`
+        ).source
       } catch (error) {
         throw new Error(`Invalid URL pattern: ${glob}`)
       }
