@@ -1,7 +1,5 @@
 /* globals chrome, Common */
 
-const modalTypes = []
-
 const {
   $,
   $$,
@@ -10,7 +8,8 @@ const {
   removeChildren,
   el,
   debounce,
-  Background,
+  modalTypes,
+  transformDefinitions,
   Content,
 } = Common
 
@@ -77,8 +76,6 @@ i18n()
     chrome.runtime.openOptionsPage()
   })
 
-  modalTypes.push(...(await Background.call('getModalTypes')))
-
   // Show all-time totals
   const { blockedModals: totals } = await chrome.storage.sync.get({
     blockedModals: {},
@@ -140,31 +137,106 @@ i18n()
 
   // Definitions tab
 
+  // Modal type select
+  modalTypes.forEach((type) => {
+    const option = el('option')
+
+    option.value = type
+    option.textContent = chrome.i18n.getMessage(`modalType${capitalize(type)}`)
+
+    $('#input-modal-types').append(option)
+  })
+
+  $('#input-modal-types').addEventListener('change', (event) => {
+    const modalType = event.target.value
+
+    $('#errors-definitions').textContent = ''
+
+    chrome.storage.sync
+      .get({
+        customDefinitions: {},
+      })
+      .then(
+        ({ customDefinitions }) =>
+          ($('#input-definitions').value = JSON.stringify(
+            customDefinitions[modalType] || {},
+            null,
+            2
+          ))
+      )
+  })
+
+  $('#input-modal-types').dispatchEvent(new Event('change'))
+
+  // Edit / debug toggle
+  $$('input[name="input-mode"]').forEach((el) =>
+    el.addEventListener('change', (event) => {
+      const debug = event.target.value === 'debug'
+
+      $('#input-definitions').classList[debug ? 'add' : 'remove']('hidden')
+      $('#input-debug').classList[debug ? 'remove' : 'add']('hidden')
+    })
+  )
+
+  // Reload page
+  $('.reload').addEventListener('click', () => Content.call('reload'))
+
+  // Format JSON on blur
   $('#input-definitions').addEventListener('blur', (event) => {
-    const json = event.target.value
+    const json = event.target.value || '{}'
 
     try {
       const definitions = JSON.parse(json)
 
       event.target.value = JSON.stringify(definitions, null, 2)
+
+      const selectedType = $('#input-modal-types').value
+
+      chrome.storage.sync
+        .get({
+          customDefinitions: modalTypes.reduce(
+            (definitions, type) => ({ ...definitions, [type]: {} }),
+            {}
+          ),
+        })
+        .then(({ customDefinitions }) =>
+          chrome.storage.sync.set({
+            customDefinitions: {
+              ...customDefinitions,
+              [selectedType]: definitions,
+            },
+          })
+        )
     } catch (error) {
-      // Do nothing
+      // eslint-disable-next-line no-console
+      console.error(error)
     }
   })
 
+  // Validate JSON on change
   $('#input-definitions').addEventListener(
     'input',
     debounce((event) => {
-      const json = event.target.value
+      const json = event.target.value || '{}'
 
       try {
-        const definitions = JSON.parse(json)
+        const definitionsByType = [
+          {
+            type: 'offers',
+            definitions: JSON.parse(json),
+          },
+        ]
+
+        const definitions = transformDefinitions(definitionsByType)
+
+        $('#input-debug').textContent = JSON.stringify(definitions, null, 2)
 
         $('#errors-definitions').textContent = ''
       } catch (error) {
-        console.log(error)
+        // eslint-disable-next-line no-console
+        console.error(error)
 
-        $('#errors-definitions').textContent = error.toString()
+        $('#errors-definitions').textContent = error.message || error.toString()
       }
     }, 500)
   )

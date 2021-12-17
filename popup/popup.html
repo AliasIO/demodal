@@ -27,7 +27,7 @@
     </div>
 
     <div class="content">
-      <div class="hidden" data-tab-content="blocked-modals">
+      <div data-tab-content="blocked-modals">
         <div class="if-connected">
           <div id="options" class="container">
             <div class="checkbox">
@@ -37,36 +37,14 @@
             </div>
           </div>
 
+          <hr />
+
           <div id="blocked-page" class="container">
             <h2 data-i18n="blockedModalsPage"></h2>
 
             <div id="blocked-page__missing" class="hidden" data-i18n="modalStatsEmpty"></div>
 
-            <div id="blocked-page__stats" class="card">
-              <table>
-                <thead>
-                  <tr>
-                    <th width="50%">
-                      <span data-i18n="modalType"></span>
-                    </th>
-                    <th width="50%">
-                      <span data-i18n="blockedModals"></span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div id="blocked-total" class="container">
-          <h2 data-i18n="blockedModalsTotal"></h2>
-
-          <div id="blocked-total__missing" class="hidden" data-i18n="modalStatsEmpty"></div>
-
-          <div id="blocked-total__stats" class="card">
-            <table>
+            <table id="blocked-page__stats">
               <thead>
                 <tr>
                   <th width="50%">
@@ -81,19 +59,60 @@
             </table>
           </div>
         </div>
+
+        <div id="blocked-total" class="container">
+          <h2 data-i18n="blockedModalsTotal"></h2>
+
+          <div id="blocked-total__missing" class="hidden" data-i18n="modalStatsEmpty"></div>
+
+          <table id="blocked-total__stats">
+            <thead>
+              <tr>
+                <th width="50%">
+                  <span data-i18n="modalType"></span>
+                </th>
+                <th width="50%">
+                  <span data-i18n="blockedModals"></span>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
 
-      <div data-tab-content="definitions">
+      <div class="hidden" data-tab-content="definitions">
         <div class="container">
-          <label>
+          <label for="input-definitions">
             <div class="label">Definitions</div>
 
             <div class="help">Write your own custom definitions.</div>
-
-            <textarea id="input-definitions"></textarea>
           </label>
 
+          <select id="input-modal-types">
+          </select>
+
+          <textarea id="input-definitions" class="code"></textarea>
+
+          <textarea id="input-debug" class="code hidden" readonly></textarea>
+
           <div id="errors-definitions" class="input-error"></div>
+
+          <div class="row">
+            <div class="radio">
+              <label>
+                <input type="radio" name="input-mode" value="edit" checked /> Edit
+              </label>
+
+              <label>
+                <input type="radio" name="input-mode" value="debug" /> Debug
+              </label>
+            </div>
+
+            <div class="text-right">
+              <a href="#" class="reload">Reload page</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

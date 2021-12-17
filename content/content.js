@@ -1,7 +1,7 @@
 /* eslint-env browser */
 /* globals chrome, Common */
 
-const { $, debounce, Background } = Common
+const { $, debounce, Background, Actions, Functions } = Common
 
 const definitions = []
 
@@ -35,12 +35,6 @@ const Content = {
   },
 }
 
-const Functions = {
-  $(selector) {
-    return !!$(selector)
-  },
-}
-
 // Log messages in the background script console
 function log(...messages) {
   const error = messages[0]
@@ -63,49 +57,22 @@ const run = async () => {
 
       if (
         completed ||
-        !conditions.every(({ func, arg }) => {
-          if (Functions.func) {
-            throw new Error(`Function does not exist: Functions.${func}`)
-          }
-
-          return Functions[func](arg)
-        })
+        !conditions.every(({ func, arg }) => Functions[func](arg))
       ) {
         return
       }
 
       let found = false
 
-      actions.forEach(({ selector, action }) => {
+      actions.forEach(({ selector, func, args }) => {
         const node = $(selector)
 
         if (node) {
           found = true
 
-          const [func, ...args] = action.split(' ')
-
           log(`action: ${selector}: ${func}(${args.join(', ')})`)
 
-          switch (func) {
-            case 'remove':
-              node.remove()
-
-              break
-            case 'addClass':
-              node.classList.add(...args)
-
-              break
-            case 'removeClass':
-              if (args[0] === '*') {
-                node.className = ''
-              } else {
-                node.classList.remove(...args)
-              }
-
-              break
-            default:
-              log(new Error(`Unknown function ${func}(${args.join(', ')})`))
-          }
+          Actions[func].call(node, ...args)
         }
       })
 

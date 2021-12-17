@@ -1,135 +1,46 @@
-/* globals chrome */
+/* globals chrome, importScripts, Common */
 
-const modalTypes = [
-  'offer',
-  'paywall',
-  'email',
-  'signup',
-  'consent',
-  'donate',
-  'message',
-]
+importScripts(chrome.runtime.getURL(`../common/common.js`))
+
+const { modalTypes, transformDefinitions } = Common
 
 const definitions = []
 
-function arrayify(item) {
-  return Array.isArray(item) ? item : [item]
-}
-
-function tokenify(string) {
-  const tokens = []
-
-  let level = 0
-  let token = ''
-
-  string.split('').forEach((char) => {
-    token += char
-
-    if (token === 'if ') {
-      token = ''
-    }
-
-    switch (char) {
-      case '(':
-        level++
-
-        break
-      case ')':
-        level--
-
-        if (!level) {
-          const [, func, arg] = token.trim().match(/([^(]+)\((.+)\)$/)
-
-          tokens.push({ func, arg })
-
-          token = ''
-        }
-
-        break
-    }
-  })
-
-  return tokens
-}
-
-function globToRegExp(glob) {
-  return glob
-    .split(' ')
-    .map(
-      (glob) =>
-        new RegExp(
-          glob === '*'
-            ? ''
-            : `^https?://${glob.replace('.', '\\.').replace('*', '[^./]+')}\\b`,
-          'i'
-        )
-    )
-}
-
-function transformDefinitions(definitionsByType) {
-  return Object.values(
-    definitionsByType.reduce((definitionsByGlob, { type, definitions }) => {
-      Object.keys(definitions).forEach((glob) => {
-        definitionsByGlob[glob] = definitionsByGlob[glob] || {
-          glob,
-          regExps: globToRegExp(glob),
-          definitions: [],
-        }
-
-        definitionsByGlob[glob].definitions.push(
-          ...arrayify(definitions[glob])
-            .map((definition) =>
-              Object.keys(definition).map((key) => {
-                const conditions = key.startsWith('if ') ? tokenify(key) : []
-
-                const actions = conditions.length
-                  ? Object.keys(definition[key]).map((selector) => ({
-                      selector,
-                      action: definition[key][selector],
-                    }))
-                  : [{ selector: key, action: definition[key] }]
-
-                return { type, conditions, actions }
-              })
-            )
-            .flat()
-        )
-      })
-
-      return definitionsByGlob
-    }, {})
-  ).flat()
-}
-
 async function loadDefinitions() {
-  definitions.push(
-    ...transformDefinitions(
-      await Promise.all(
-        modalTypes.map(async (type) => ({
-          type,
-          definitions: JSON.parse(
-            await (
-              await fetch(chrome.runtime.getURL(`../definitions/${type}.json`))
-            ).text()
-          ),
-        }))
+  try {
+    definitions.push(
+      ...transformDefinitions(
+        await Promise.all(
+          modalTypes.map(async (type) => ({
+            type,
+            definitions: JSON.parse(
+              await (
+                await fetch(
+                  chrome.runtime.getURL(`../definitions/${type}.json`)
+                )
+              ).text()
+            ),
+          }))
+        )
       )
     )
-  )
+  } catch (error) {
+    Background.error(error)
+  }
 }
 
 const Background = {
   getDefinitions(url) {
     return definitions
       .filter(({ regExps }) =>
-        regExps.some((regExp) => regExp.test(url) || regExp.test(`www.${url}`))
+        regExps.some(
+          (regExp) =>
+            new RegExp(regExp).test(url) ||
+            new RegExp(regExp).test(`www.${url}`)
+        )
       )
       .map(({ definitions }) => definitions)
       .flat()
-  },
-
-  getModalTypes() {
-    return modalTypes
   },
 
   setBadge(text) {
@@ -185,5 +96,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 loadDefinitions()
 
 chrome.action.setBadgeBackgroundColor({
-  color: '#0068b3',
+  color: '#4755b3',
 })

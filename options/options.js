@@ -1,15 +1,11 @@
 /* globals chrome, Common */
 
-const modalTypes = []
-
-const { $, i18n, el, capitalize, Background } = Common
+const { $, i18n, el, capitalize, modalTypes } = Common
 
 i18n()
 
 //
 ;(async () => {
-  modalTypes.push(...(await Background.call('getModalTypes')))
-
   const { optionBlockModalTypes } = await chrome.storage.sync.get({
     optionBlockModalTypes: modalTypes.reduce(
       (options, type) => ({ ...options, [type]: true }),

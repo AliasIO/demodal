@@ -1,7 +1,7 @@
 :root {
-  --color-primary: #0094ff;
-  --color-primary-dark: #0068b3;
-  --color-primary-light: #e8f5ff;
+  --color-primary: #667aff;
+  --color-primary-dark: #4755b3;
+  --color-primary-light: #f1f3ff;
   --color-heading: #333;
   --color-text: #4a4a4a;
   --color-grey: #ccc;
@@ -32,23 +32,31 @@ p {
   margin-bottom: 1rem;
 }
 
+a, a:hover, a:active, a:visited {
+  color: var(--color-primary);
+}
+
 input, button, textarea, select {
   font: inherit;
 }
 
-input, textarea {
-  padding: .2rem .5rem;
+input[type="text"], textarea, select {
+  display: block;
+  padding: .5rem;
   border: 1px solid var(--color-grey);
   border-radius: var(--radius);
-}
-
-textarea {
-  display: block;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"], input[type="radio"] {
   margin-right: .5rem;
+}
+
+textarea.code {
+  font-family: Monaco, monospace;
+  font-size: .7rem;
+  line-height: 1.1rem;
 }
 
 h2 {
@@ -71,16 +79,32 @@ th {
 }
 
 th, td {
-  border-color: var(--color-grey);
-  border-style: solid;
-  border-width: 1px 0;
   padding: .25rem .5rem;
+}
+
+th:first-child, td:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+th:last-child, td:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+tr:first-child th,
+tr:nth-child(even) td {
+  background: var(--color-primary-light);
 }
 
 hr {
   border-color: var(--color-grey);
   border-style: solid;
   border-width: 1px 0 0 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .label {
@@ -90,6 +114,13 @@ hr {
 .checkbox label {
   display: flex;
   align-items: center;
+  margin-bottom: .5rem;
+}
+
+.radio label {
+  display: inline-flex;
+  align-items: center;
+  margin-right: .5rem;
 }
 
 .help {
@@ -100,7 +131,11 @@ hr {
 .input-error {
   color: #ff5353;
   font-size: .8rem;
-  margin-top: .5rem;
+  margin: -.5rem 0 .5rem 0;
+}
+
+.input-error:empty {
+  margin: 0;
 }
 
 .hidden {
@@ -115,15 +150,6 @@ hr {
 }
 
 .container {
-  margin: 1rem;
-}
-
-.card {
-  border-radius: var(--radius);
-  border: 1px solid var(--color-grey);
-}
-
-.card__content {
   margin: 1rem;
 }
 
