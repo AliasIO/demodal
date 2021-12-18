@@ -1,5 +1,17 @@
 /* globals chrome */
 
+// Manifest v2 polyfill
+if (chrome.runtime.getManifest().manifest_version === 2) {
+  chrome.action = chrome.browserAction
+
+  chrome.storage.sync = {
+    get: (...args) =>
+      new Promise((resolve) => chrome.storage.local.get(...args, resolve)),
+    set: (...args) =>
+      new Promise((resolve) => chrome.storage.local.set(...args, resolve)),
+  }
+}
+
 const Common = {
   modalTypes: [
     'offer',

@@ -1,6 +1,8 @@
 /* globals chrome, importScripts, Common */
 
-importScripts(chrome.runtime.getURL(`../common/common.js`))
+if (typeof importScripts !== 'undefined') {
+  importScripts(chrome.runtime.getURL(`common/common.js`))
+}
 
 const { modalTypes, transformDefinitions } = Common
 
@@ -15,9 +17,7 @@ async function loadDefinitions() {
             type,
             definitions: JSON.parse(
               await (
-                await fetch(
-                  chrome.runtime.getURL(`../definitions/${type}.json`)
-                )
+                await fetch(chrome.runtime.getURL(`definitions/${type}.json`))
               ).text()
             ),
           }))

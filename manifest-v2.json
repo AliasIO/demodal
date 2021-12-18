@@ -2,10 +2,10 @@
   "name": "Demodal - Block modals and overlays",
   "description": "Demodal automatically removes content blocking modals including paywalls, discount offers, promts to sign up or enter your email address and more.",
   "version": "1.0.0",
-  "manifest_version": 3,
+  "manifest_version": 2,
   "default_locale": "en",
   "background": {
-    "service_worker": "background/background.js"
+    "page": "background/background.html"
   },
   "content_scripts": [
     {
@@ -16,15 +16,18 @@
       ]
     }
   ],
-  "permissions": ["storage", "activeTab", "scripting"],
-  "action": {
+  "permissions": ["storage", "activeTab"],
+  "browser_action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
       "128": "images/icon-256.png",
       "256": "images/icon-256.png"
     }
   },
-  "options_page": "options/options.html",
+  "options_ui":{
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
   "icons": {
     "128": "images/icon-256.png",
     "256": "images/icon-256.png"

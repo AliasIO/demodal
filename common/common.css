@@ -37,6 +37,7 @@ a {
 }
 
 input, button, textarea, select {
+  background-color: var(--color-white);
   font: inherit;
 }
 
