@@ -31,7 +31,7 @@ async function loadDefinitions() {
 
 const Background = {
   async getDefinitions() {
-    const url = this.sender.tab.url
+    const url = this.sender.url
 
     // Get custom definitions
     const { customDefinitions: definitionsByType } =
