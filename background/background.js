@@ -11,7 +11,7 @@ const definitions = []
 async function loadDefinitions() {
   try {
     definitions.push(
-      ...transformDefinitions(
+      ...(await transformDefinitions(
         await Promise.all(
           modalTypes.map(async (type) => ({
             type,
@@ -22,7 +22,7 @@ async function loadDefinitions() {
             ),
           }))
         )
-      )
+      ))
     )
   } catch (error) {
     Background.error(error)
@@ -30,14 +30,16 @@ async function loadDefinitions() {
 }
 
 const Background = {
-  async getDefinitions(url) {
+  async getDefinitions() {
+    const url = this.sender.tab.url
+
     // Get custom definitions
     const { customDefinitions: definitionsByType } =
       await chrome.storage.sync.get({
         customDefinitions: {},
       })
 
-    const customDefinitions = transformDefinitions(
+    const customDefinitions = await transformDefinitions(
       modalTypes.map((type) => ({
         type,
         definitions: definitionsByType[type] || {},

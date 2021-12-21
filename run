@@ -1,0 +1,17 @@
+#!/bin/bash
+
+case $1 in
+  manifest)
+    if [[ -f manifest-$2.json ]]; then
+      cat manifest-$2.json > manifest.json
+
+      echo Switched to manifest $2
+    else
+      echo Invalid argument $2
+    fi
+    ;;
+
+  *)
+    echo Invalid argument $1
+    ;;
+esac

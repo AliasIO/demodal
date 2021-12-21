@@ -1,2 +1,9 @@
 {
+  "*": {
+    "#cookie-law-info-bar": "remove",
+    "#moove_gdpr_cookie_info_bar": "remove",
+    "if defined(BorlabsCookie)": {
+      "BorlabsCookie.hideCookieBox": "call"
+    }
+  }
 }

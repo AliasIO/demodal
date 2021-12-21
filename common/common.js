@@ -86,13 +86,13 @@ const Common = {
     })
   },
 
-  tokenify(string) {
+  async tokenify(string) {
     const tokens = []
 
     let level = 0
     let token = ''
 
-    string.split('').forEach((char) => {
+    for (const char of string.split('')) {
       token += char
 
       if (token === 'if ') {
@@ -115,7 +115,7 @@ const Common = {
             }
 
             try {
-              Common.Functions[func](arg)
+              await Common.Functions[func].call({ validateOnly: true }, arg)
             } catch (error) {
               throw new Error(`Invalid argument: ${arg}`)
             }
@@ -127,30 +127,32 @@ const Common = {
 
           break
       }
-    })
+    }
 
     return tokens
   },
 
-  transformDefinitions(definitionsByType) {
-    return Object.values(
-      definitionsByType.reduce((definitionsByGlob, { type, definitions }) => {
-        if (!Common.isObject(definitions)) {
-          throw new TypeError(
-            `Unexpected definitions type, expected object: ${definitions}`
-          )
+  async transformDefinitions(definitionsByType) {
+    const definitionsByGlob = []
+
+    for (const { type, definitions } of definitionsByType) {
+      if (!Common.isObject(definitions)) {
+        throw new TypeError(
+          `Unexpected definitions type, expected object: ${definitions}`
+        )
+      }
+
+      for (const glob of Object.keys(definitions)) {
+        definitionsByGlob[glob] = definitionsByGlob[glob] || {
+          glob,
+          regExps: Common.globToRegExp(glob),
+          definitions: [],
         }
 
-        Object.keys(definitions).forEach((glob) => {
-          definitionsByGlob[glob] = definitionsByGlob[glob] || {
-            glob,
-            regExps: Common.globToRegExp(glob),
-            definitions: [],
-          }
-
-          definitionsByGlob[glob].definitions.push(
-            ...Common.arrayify(definitions[glob])
-              .map((definition) => {
+        definitionsByGlob[glob].definitions.push(
+          ...(
+            await Promise.all(
+              Common.arrayify(definitions[glob]).map((definition) => {
                 try {
                   if (!Common.isObject(definition)) {
                     throw new TypeError(
@@ -158,71 +160,75 @@ const Common = {
                     )
                   }
 
-                  return Object.keys(definition).map((key) => {
-                    const conditions = key.startsWith('if ')
-                      ? Common.tokenify(key)
-                      : null
+                  return Promise.all(
+                    Object.keys(definition).map(async (key) => {
+                      const conditions = key.startsWith('if ')
+                        ? await Common.tokenify(key)
+                        : null
 
-                    if (conditions && !conditions.length) {
-                      throw new Error(`Invalid condition: ${key}`)
-                    }
+                      if (conditions && !conditions.length) {
+                        throw new Error(`Invalid condition: ${key}`)
+                      }
 
-                    let actions = []
+                      let actions = []
 
-                    if (conditions) {
-                      if (!Common.isObject(definition[key])) {
-                        throw new TypeError(
-                          `Invalid actions type, expected object: ${definition[key]}`
+                      if (conditions) {
+                        if (!Common.isObject(definition[key])) {
+                          throw new TypeError(
+                            `Invalid actions type, expected object: ${definition[key]}`
+                          )
+                        }
+
+                        actions = Object.keys(definition[key]).map(
+                          (selector) => ({
+                            selector,
+                            action: definition[key][selector],
+                          })
                         )
+                      } else {
+                        actions = [{ selector: key, action: definition[key] }]
                       }
 
-                      actions = Object.keys(definition[key]).map(
-                        (selector) => ({
-                          selector,
-                          action: definition[key][selector],
-                        })
-                      )
-                    } else {
-                      actions = [{ selector: key, action: definition[key] }]
-                    }
+                      actions = actions.map(({ selector, action }) => {
+                        if (typeof action !== 'string') {
+                          throw new TypeError(
+                            `Unexpected action type, expected string`
+                          )
+                        }
 
-                    actions = actions.map(({ selector, action }) => {
-                      if (typeof action !== 'string') {
-                        throw new TypeError(
-                          `Unexpected action type, expected string`
-                        )
-                      }
+                        const [func, ...args] = action.split(' ')
 
-                      const [func, ...args] = action.split(' ')
+                        return { selector, func, args }
+                      })
 
-                      return { selector, func, args }
+                      actions.forEach(({ selector, func, args }) => {
+                        try {
+                          Common.$(selector)
+                        } catch (error) {
+                          throw new Error(
+                            `Invalid action selector: ${selector}`
+                          )
+                        }
+
+                        if (!Common.Actions[func]) {
+                          throw new Error(`Invalid action function: ${func}`)
+                        }
+                      })
+
+                      return { type, conditions: conditions || [], actions }
                     })
-
-                    actions.forEach(({ selector, func, args }) => {
-                      try {
-                        Common.$(selector)
-                      } catch (error) {
-                        throw new Error(`Invalid action selector: ${selector}`)
-                      }
-
-                      if (!Common.Actions[func]) {
-                        throw new Error(`Invalid action function: ${func}`)
-                      }
-                    })
-
-                    return { type, conditions: conditions || [], actions }
-                  })
+                  )
                 } catch (error) {
                   throw new Error(`${error.message || error} in ${glob}`)
                 }
               })
-              .flat()
-          )
-        })
+            )
+          ).flat()
+        )
+      }
+    }
 
-        return definitionsByGlob
-      }, {})
-    ).flat()
+    return Object.values(definitionsByGlob).flat()
   },
 
   globToRegExp(glob) {
@@ -250,6 +256,38 @@ const Common = {
     })
   },
 
+  // Run a script in the context of the page
+  inject(func, ...args) {
+    return new Promise((resolve) => {
+      const script = Common.el('script')
+
+      script.src = chrome.runtime.getURL('inject/inject.js')
+
+      script.dataset.demodal = 'true'
+
+      script.onload = () => {
+        const receiveMessage = ({ data }) => {
+          const { demodalResponse: message } = data
+          if (!message) {
+            return
+          }
+
+          window.removeEventListener('message', receiveMessage)
+
+          script.remove()
+
+          resolve(message)
+        }
+
+        window.addEventListener('message', receiveMessage)
+
+        window.postMessage({ demodalRequest: { func, args } })
+      }
+
+      document.body.append(script)
+    })
+  },
+
   Actions: {
     remove() {
       this.remove()
@@ -264,6 +302,9 @@ const Common = {
         this.classList.remove(...args)
       }
     },
+    call(...args) {
+      return Common.inject('call', ...args)
+    },
   },
 
   Functions: {
@@ -273,6 +314,13 @@ const Common = {
       } catch (error) {
         throw new Error(`Invalid selector: ${selector}`)
       }
+    },
+    async defined(...args) {
+      if (this.validateOnly) {
+        return true
+      }
+
+      return await Common.inject('defined', ...args)
     },
   },
 

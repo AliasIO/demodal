@@ -52,52 +52,70 @@ const run = async () => {
       return
     }
 
-    definitions.forEach((definition) => {
-      const { type, conditions, actions, completed } = definition
+    await Promise.all(
+      definitions.map(async (definition) => {
+        const { type, conditions, actions, completed } = definition
 
-      if (
-        completed ||
-        !conditions.every(({ func, arg }) => Functions[func](arg))
-      ) {
-        return
-      }
+        if (
+          completed ||
+          !(
+            await Promise.all(
+              conditions.map(({ func, arg }) => Functions[func](arg))
+            )
+          ).every((result) => result)
+        ) {
+          return
+        }
 
-      let found = false
+        let found = !!conditions.length
 
-      actions.forEach(({ selector, func, args }) => {
-        const node = $(selector)
+        actions.forEach(({ selector, func, args }) => {
+          switch (func) {
+            case 'remove':
+            case 'addClass':
+            case 'removeClass':
+              // eslint-disable-next-line no-case-declarations
+              const node = $(selector)
 
-        if (node) {
-          found = true
+              if (node) {
+                found = true
 
-          log(`action: ${selector}: ${func}(${args.join(', ')})`)
+                log(`action: ${selector}: ${func}(${args.join(', ')})`)
 
-          Actions[func].call(node, ...args)
+                Actions[func].call(node, ...args)
+              }
+
+              break
+            case 'call':
+              Actions[func](selector, ...args)
+
+              break
+          }
+        })
+
+        if (found) {
+          definition.completed = true
+
+          blockedModals[type] = (blockedModals[type] || 0) + 1
+
+          Background.call(
+            'setBadge',
+            Object.values(blockedModals).reduce((sum, value) => sum + value, 0)
+          )
+
+          // Update all-time totals
+          chrome.storage.sync
+            .get({
+              blockedModals: {},
+            })
+            .then(({ blockedModals }) => {
+              blockedModals[type] = (blockedModals[type] || 0) + 1
+
+              chrome.storage.sync.set({ blockedModals })
+            })
         }
       })
-
-      if (found) {
-        definition.completed = true
-
-        blockedModals[type] = (blockedModals[type] || 0) + 1
-
-        Background.call(
-          'setBadge',
-          Object.values(blockedModals).reduce((sum, value) => sum + value, 0)
-        )
-
-        // Update all-time totals
-        chrome.storage.sync
-          .get({
-            blockedModals: {},
-          })
-          .then(({ blockedModals }) => {
-            blockedModals[type] = (blockedModals[type] || 0) + 1
-
-            chrome.storage.sync.set({ blockedModals })
-          })
-      }
-    })
+    )
   } catch (error) {
     log(error)
   }
@@ -126,13 +144,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //
 ;(async () => {
   try {
-    definitions.push(
-      ...(await Background.call('getDefinitions', location.href))
-    )
+    definitions.push(...(await Background.call('getDefinitions')))
 
-    const runDebounced = debounce(() => run(), 100)
+    const runDebounced = debounce(() => run(), 500)
 
-    const mutationObserver = new MutationObserver(() => runDebounced())
+    const mutationObserver = new MutationObserver((mutations) => {
+      // Avoid infinite loop if mutation was done by us
+      if (
+        mutations.every((mutation) =>
+          Array.from(mutation.addedNodes).every((node) => node.dataset.demodal)
+        )
+      ) {
+        return
+      }
+
+      runDebounced()
+    })
 
     mutationObserver.observe(document.body, { subtree: true, childList: true })
 
