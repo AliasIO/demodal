@@ -1,2 +1,8 @@
 {
+  "*": {
+    "if $(.elementor-popup-modal)": {
+      ".elementor-popup-modal": "remove",
+      "body": "removeClass dialog-prevent-scroll"
+    }
+  }
 }

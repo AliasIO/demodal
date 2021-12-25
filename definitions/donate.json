@@ -1,5 +1,6 @@
 {
   "*.theguardian.com": {
-    ".site-message--banner": "remove"
+    ".site-message--banner": "remove",
+    "#bottom-banner": "remove"
   }
 }

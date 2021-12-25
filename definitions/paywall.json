@@ -5,5 +5,8 @@
       "#app > div > div": "removeClass *",
       "#app > div > div > div:last-child": "remove"
     }
+  },
+  "*.wired.com": {
+    ".persistent-bottom": "remove"
   }
 }
