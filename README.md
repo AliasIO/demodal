@@ -83,10 +83,11 @@ Conditions start with `if`, followed by one or more functions. If all functions 
 
 ### Functions
 
-| Function | Argument | Description |
-|--|--|--|
-| `$()` | [Query selector](https://developer.mozilla.org/docs/Web/API/Document/querySelector) | Tests if an HTML element exists. |
-| `defined()` | JavaScript property | Tests if a JavaScript property exists. |
+| Function    | Argument             | Description |
+|-------------|----------------------|-------------|
+| `$()`       | [Query selector](https://developer.mozilla.org/docs/Web/API/Document/querySelector) | Tests if an HTML element exists.
+| `defined()` | JavaScript property  | Tests if a JavaScript property exists.
+| `sleep()`   | Time in milliseconds | Returns true after the specified time has passed
 
 ## Actions
 
@@ -99,5 +100,7 @@ Actions are run when the condition is met, or if no condition is specified.
 | `remove` .    |            | Remove the HTML element
 | `addClass`    | Class name | Add a class
 | `removeClass` | Class name | Remove a class
+| `addStyle`    | Styles     | Appends CSS to the style attribute
+| `removeStyle` |            | Clears the style attribute
 | `call`        |            | Call the function. Any arguments will be passed to the function.
 

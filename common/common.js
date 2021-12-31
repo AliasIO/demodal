@@ -89,7 +89,8 @@ const Common = {
   async tokenify(string) {
     const tokens = []
 
-    let level = 0
+    let bracketLevel = 0
+    let quote = false
     let token = ''
 
     for (const char of string.split('')) {
@@ -100,33 +101,51 @@ const Common = {
       }
 
       switch (char) {
-        case '(':
-          level++
+        case "'":
+          quote = !quote
 
-          break
-        case ')':
-          level--
-
-          if (!level) {
-            const [, func, arg] = token.trim().match(/([^(]+)\((.+)\)$/)
-
-            if (!Common.Functions[func]) {
-              throw new Error(`Function does not exist: ${func}`)
-            }
-
-            try {
-              await Common.Functions[func].call({ validateOnly: true }, arg)
-            } catch (error) {
-              throw new Error(`Invalid argument: ${arg}`)
-            }
-
-            tokens.push({ func, arg })
+          if (!quote) {
+            tokens.push(token.replace(/(^'|'$)/g, ''))
 
             token = ''
           }
 
           break
+        case '(':
+          if (!quote) {
+            bracketLevel++
+          }
+
+          break
+        case ')':
+          if (!quote) {
+            bracketLevel--
+
+            if (!bracketLevel) {
+              const [, func, arg] = token.trim().match(/([^(]+)\((.+)\)$/)
+
+              if (!Common.Functions[func]) {
+                throw new Error(`Function does not exist: ${func}`)
+              }
+
+              try {
+                await Common.Functions[func].call({ validateOnly: true }, arg)
+              } catch (error) {
+                throw new Error(`Invalid argument: ${arg}`)
+              }
+
+              tokens.push({ func, arg })
+
+              token = ''
+            }
+          }
+
+          break
       }
+    }
+
+    if (token) {
+      tokens.push(token)
     }
 
     return tokens
@@ -189,17 +208,23 @@ const Common = {
                         actions = [{ selector: key, action: definition[key] }]
                       }
 
-                      actions = actions.map(({ selector, action }) => {
-                        if (typeof action !== 'string') {
-                          throw new TypeError(
-                            `Unexpected action type, expected string`
+                      actions = await Promise.all(
+                        actions.map(async ({ selector, action }) => {
+                          if (typeof action !== 'string') {
+                            throw new TypeError(
+                              `Unexpected action type, expected string`
+                            )
+                          }
+
+                          const [func, ...splitArgs] = action.split(' ')
+
+                          const args = await Common.tokenify(
+                            splitArgs.join(' ')
                           )
-                        }
 
-                        const [func, ...args] = action.split(' ')
-
-                        return { selector, func, args }
-                      })
+                          return { selector, func, args }
+                        })
+                      )
 
                       actions.forEach(({ selector, func, args }) => {
                         try {
@@ -302,6 +327,12 @@ const Common = {
         this.classList.remove(...args)
       }
     },
+    addStyle(...args) {
+      this.style = `${this.style}; ${args[0]}`
+    },
+    removeStyle() {
+      this.style = ''
+    },
     call(...args) {
       return Common.inject('call', ...args)
     },
@@ -321,6 +352,15 @@ const Common = {
       }
 
       return await Common.inject('defined', ...args)
+    },
+    sleep(ms = 0) {
+      if (this.validateOnly) {
+        return true
+      }
+
+      return new Promise((resolve) =>
+        setTimeout(() => resolve(true), parseInt(ms, 10))
+      )
     },
   },
 

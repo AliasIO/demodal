@@ -74,6 +74,8 @@ const run = async () => {
             case 'remove':
             case 'addClass':
             case 'removeClass':
+            case 'addStyle':
+            case 'removeStyle':
               // eslint-disable-next-line no-case-declarations
               const node = $(selector)
 

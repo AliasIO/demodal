@@ -51,7 +51,10 @@ const Background = {
         regExps.some((_regExp) => {
           const regExp = new RegExp(_regExp, 'i')
 
-          return regExp.test(url) || regExp.test(`www.${url}`)
+          return (
+            regExp.test(url) ||
+            regExp.test(`${url.replace(/^http(s)?:\/\//, 'http$1://www.')}`)
+          )
         })
       )
       .map(({ definitions }) => definitions)

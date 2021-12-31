@@ -4,6 +4,7 @@
     "#moove_gdpr_cookie_info_bar": "remove",
     "if defined(BorlabsCookie)": {
       "BorlabsCookie.hideCookieBox": "call"
-    }
+    },
+    "#cookie-banner": "remove"
   }
 }

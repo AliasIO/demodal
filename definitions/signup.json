@@ -2,5 +2,10 @@
   "*.smh.com.au *.theage.com.au": {
     "[data-testid='registration-prompt']": "remove",
     "#registrationWall": "remove"
+  },
+  "*.ishka.com.au": {
+    "if $(.sign_up_karma_club_popup) defined(CloseClubPoup)": {
+      "CloseClubPoup": "call"
+    }
   }
 }

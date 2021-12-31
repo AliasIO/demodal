@@ -8,5 +8,12 @@
   },
   "*.wired.com": {
     ".persistent-bottom": "remove"
+  },
+  "*.washingtonpost.com": {
+    "if $(.paywall-overlay) sleep(1000)": {
+      ".paywall-overlay": "remove",
+      "html": "removeStyle",
+      "body": "addStyle 'overflow: inherit; position: inherit;'"
+    }
   }
 }
