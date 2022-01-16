@@ -20,7 +20,7 @@
   "browser_action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
-      "128": "images/icon-256.png",
+      "128": "images/icon-128.png",
       "256": "images/icon-256.png"
     }
   },
@@ -29,7 +29,7 @@
     "open_in_tab": true
   },
   "icons": {
-    "128": "images/icon-256.png",
+    "128": "images/icon-128.png",
     "256": "images/icon-256.png"
   }
 }

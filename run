@@ -23,11 +23,15 @@ case $1 in
     sed -i '' -r "s/\"version\": \".+\"/\"version\": \"$2\"/" manifest-v2.json
     sed -i '' -r "s/\"version\": \".+\"/\"version\": \"$2\"/" manifest-v3.json
 
-    files="background common content definitions images inject options popup manifest.json"
+    find . -name '.DS_Store' -type f -delete
+
+    files="_locales background common content definitions images inject options popup manifest.json"
 
     cp manifest.json manifest.json.bak
 
     cat manifest-v2.json > manifest.json
+
+    rm build/*
 
     zip -r build/demodal-v2.zip $files
 

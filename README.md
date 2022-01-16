@@ -26,6 +26,8 @@ Install locally:
 
 ### Mozilla Firefox
 
+https://addons.mozilla.org/firefox/addon/demodal
+
 Install locally:
 
 * Clone this repository
