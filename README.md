@@ -1,21 +1,52 @@
 
 # Demodal
 
-Demodal automatically removes content blocking modals including paywalls, 
+Demodal is a browser extension that automatically removes content blocking modals including paywalls, 
 discount offers, promts to sign up or enter your email address and more.
 
 Modal dialogues such as paywalls, discount offers, cookie prompts and GDPR 
 banners are user-hostile interfaces that demand your attention and interrupt
-your browsing experience. This extension puts you back in control, letting you
+your browsing experience. Demodal puts you back in control, letting you
 focus on the content.
+
+# Installation
+
+### Google Chrome
+
+https://chrome.google.com/webstore/detail/demodal/fjhbdkfknppikobblnjibmkmogjeffcf
+
+Install locally:
+
+* Clone this repository
+* Run `./run manifest v3` or copy `manifest-v3.json` to `manifest.json`
+* Go go `about:extensions`
+* Enable 'Developer mode'
+* Click 'Load unpacked'
+* Select the project folder
+
+### Mozilla Firefox
+
+Install locally:
+
+* Clone this repository
+* Run `./run manifest v2` or copy `manifest-v2.json` to `manifest.json`
+* Go go `about:debugging#/runtime/this-firefox`
+* Click 'Load Temporary Add-on'
+* Select `manifest.json`
+
 
 # Contributing
 
-This extension is in early development. You can help by reporting
+**This extension is in early development. You can help by reporting
 websites with modals that didn't get blocked, or by creating your own
 definitions and sharing them with us and the community. The aim is to build up
-a comprehensive set of rules over time to block modals anywhere.*
+a comprehensive set of rules over time to block modals anywhere.**
 
+Demodal is not an ad-blocker. Only create definitions for UI elements that intefere with reading of content.
+
+When submitting a pull request, please include a screenshot of the element that's being blocked and a link to a website to test.
+
+Every definition should clearly match one modal type (e.g. consent request or paywall). Don't create overly broad definitions (e.g. `div.modal`) that could block legimitate modals.
 
 
 # Specification
@@ -104,4 +135,5 @@ Actions are run when the condition is met, or if no condition is specified.
 | `removeStyle` |            | Clears the style attribute
 | `click`       |            | Click the HTML element
 | `call`        |            | Call the function. Any arguments will be passed to the function.
+
 

@@ -15,5 +15,8 @@
     "[aria-label='cookieconsent']": "remove",
     ".cookie-warning-modal": "remove",
     "#cookie-notice": "remove"
+  },
+  "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
+    ".js-consent-banner": "remove"
   }
 }

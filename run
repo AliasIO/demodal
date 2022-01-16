@@ -11,6 +11,33 @@ case $1 in
     fi
     ;;
 
+  build)
+    version=$2
+
+    if [ -z "$version" ]; then
+      echo "No version specified"
+
+      exit
+    fi
+
+    sed -i '' -r "s/\"version\": \".+\"/\"version\": \"$2\"/" manifest-v2.json
+    sed -i '' -r "s/\"version\": \".+\"/\"version\": \"$2\"/" manifest-v3.json
+
+    files="background common content definitions images inject options popup manifest.json"
+
+    cp manifest.json manifest.json.bak
+
+    cat manifest-v2.json > manifest.json
+
+    zip -r build/demodal-v2.zip $files
+
+    cat manifest-v3.json > manifest.json
+
+    zip -r build/demodal-v3.zip $files
+
+    mv manifest.json.bak manifest.json
+    ;;
+
   *)
     echo Invalid argument $1
     ;;
