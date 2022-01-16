@@ -3,6 +3,13 @@
     "if $(.elementor-popup-modal)": {
       ".elementor-popup-modal": "remove",
       "body": "removeClass dialog-prevent-scroll"
-    }
+    },
+    "if $(.sgpb-popup-dialog-main-div-wrapper input[type='email'])": {
+      ".sgpb-popup-dialog-main-div-wrapper": "remove"
+    },
+    "if $([aria-modal='true'] .klaviyo-close-form)": {
+      "[aria-modal='true'] .klaviyo-close-form": "click"
+    },
+    "#shopify-section-newsletter-popup .modal__close": "click"
   }
 }

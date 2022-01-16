@@ -21,25 +21,26 @@
         return chainToProp(chain) !== undefined
       },
       call(chain, ...args) {
-        chainToProp(chain)(...args)
+        chainToProp(chain)?.(...args)
       },
     }
 
-    const receiveMessage = ({ data }) => {
-      const { demodalRequest: message } = data
-      if (!message) {
+    const receiveMessage = ({ data: { demodalRequest } }) => {
+      if (!demodalRequest) {
         return
       }
 
-      const { func, args } = message
+      const { func, args, uid } = demodalRequest
 
       removeEventListener('message', receiveMessage)
 
-      if (func && Functions[func]) {
-        postMessage({
-          demodalResponse: Functions[func](...(args || [])),
-        })
-      }
+      postMessage({
+        demodalResponse: {
+          uid,
+          message:
+            func && Functions[func] ? Functions[func](...(args || [])) : false,
+        },
+      })
     }
 
     addEventListener('message', receiveMessage)

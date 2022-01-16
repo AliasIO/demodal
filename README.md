@@ -102,5 +102,6 @@ Actions are run when the condition is met, or if no condition is specified.
 | `removeClass` | Class name | Remove a class
 | `addStyle`    | Styles     | Appends CSS to the style attribute
 | `removeStyle` |            | Clears the style attribute
+| `click`       |            | Click the HTML element
 | `call`        |            | Call the function. Any arguments will be passed to the function.
 

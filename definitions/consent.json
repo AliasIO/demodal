@@ -5,6 +5,15 @@
     "if defined(BorlabsCookie)": {
       "BorlabsCookie.hideCookieBox": "call"
     },
-    "#cookie-banner": "remove"
+    "#cookie-banner": "remove",
+    ".cookie-banner": "remove",
+    "if defined(OneTrust)": {
+      "OneTrust.Close": "call"
+    },
+    "#CybotCookiebotDialogBodyButtonDecline": "click",
+    ".cookie-bar__close": "click",
+    "[aria-label='cookieconsent']": "remove",
+    ".cookie-warning-modal": "remove",
+    "#cookie-notice": "remove"
   }
 }

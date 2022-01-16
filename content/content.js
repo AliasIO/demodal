@@ -71,11 +71,11 @@ const run = async () => {
 
         actions.forEach(({ selector, func, args }) => {
           switch (func) {
-            case 'remove':
-            case 'addClass':
-            case 'removeClass':
-            case 'addStyle':
-            case 'removeStyle':
+            case 'call':
+              Actions[func](selector, ...args)
+
+              break
+            default:
               // eslint-disable-next-line no-case-declarations
               const node = $(selector)
 
@@ -86,12 +86,6 @@ const run = async () => {
 
                 Actions[func].call(node, ...args)
               }
-
-              break
-            case 'call':
-              Actions[func](selector, ...args)
-
-              break
           }
         })
 

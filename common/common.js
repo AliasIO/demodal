@@ -102,12 +102,14 @@ const Common = {
 
       switch (char) {
         case "'":
-          quote = !quote
+          if (!bracketLevel) {
+            quote = !quote
 
-          if (!quote) {
-            tokens.push(token.replace(/(^'|'$)/g, ''))
+            if (!quote) {
+              tokens.push(token.replace(/(^'|'$)/g, ''))
 
-            token = ''
+              token = ''
+            }
           }
 
           break
@@ -284,6 +286,8 @@ const Common = {
   // Run a script in the context of the page
   inject(func, ...args) {
     return new Promise((resolve) => {
+      const uid = Math.floor(Math.random() * 900000) + 100000
+
       const script = Common.el('script')
 
       script.src = chrome.runtime.getURL('inject/inject.js')
@@ -291,9 +295,8 @@ const Common = {
       script.dataset.demodal = 'true'
 
       script.onload = () => {
-        const receiveMessage = ({ data }) => {
-          const { demodalResponse: message } = data
-          if (!message) {
+        const receiveMessage = ({ data: { demodalResponse } }) => {
+          if (!demodalResponse || demodalResponse.uid !== uid) {
             return
           }
 
@@ -301,12 +304,12 @@ const Common = {
 
           script.remove()
 
-          resolve(message)
+          resolve(demodalResponse.message)
         }
 
         window.addEventListener('message', receiveMessage)
 
-        window.postMessage({ demodalRequest: { func, args } })
+        window.postMessage({ demodalRequest: { func, args, uid } })
       }
 
       document.body.append(script)
@@ -332,6 +335,9 @@ const Common = {
     },
     removeStyle() {
       this.style = ''
+    },
+    click() {
+      this.click()
     },
     call(...args) {
       return Common.inject('call', ...args)
