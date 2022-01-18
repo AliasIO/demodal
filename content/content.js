@@ -67,12 +67,14 @@ const run = async () => {
           return
         }
 
-        let found = !!conditions.length
+        let found = false
 
         actions.forEach(({ selector, func, args }) => {
+          let success = false
+
           switch (func) {
             case 'call':
-              Actions[func](selector, ...args)
+              success = Actions[func](selector, ...args)
 
               break
             default:
@@ -80,13 +82,15 @@ const run = async () => {
               const node = $(selector)
 
               if (node) {
-                found = true
-
-                log(`action: ${selector}: ${func}(${args.join(', ')})`)
-
-                Actions[func].call(node, ...args)
+                success = Actions[func].call(node, ...args)
               }
           }
+
+          if (success) {
+            log(`action: ${selector}: ${func}(${args.join(', ')})`)
+          }
+
+          found = found || success
         })
 
         if (found) {

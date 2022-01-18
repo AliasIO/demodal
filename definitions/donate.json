@@ -1,6 +1,9 @@
 {
   "*.theguardian.com": {
     ".site-message--banner": "remove",
-    "#bottom-banner": "remove"
+    "#bottom-banner": "removeIf 'Support the Guardian'"
+  },
+  "*.science.org": {
+    ".alert-donation": "remove"
   }
 }

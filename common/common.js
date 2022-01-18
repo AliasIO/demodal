@@ -319,9 +319,26 @@ const Common = {
   Actions: {
     remove() {
       this.remove()
+
+      return true
+    },
+    removeIf(...args) {
+      if (
+        args.every((string) =>
+          this.textContent.toLowerCase().includes(string.toLowerCase().trim())
+        )
+      ) {
+        this.remove()
+
+        return true
+      }
+
+      return false
     },
     addClass(...args) {
       this.classList.add(...args)
+
+      return true
     },
     removeClass(...args) {
       if (args[0] === '*') {
@@ -329,18 +346,28 @@ const Common = {
       } else {
         this.classList.remove(...args)
       }
+
+      return true
     },
     addStyle(...args) {
       this.style = `${this.style}; ${args[0]}`
+
+      return true
     },
     removeStyle() {
       this.style = ''
+
+      return true
     },
     click() {
       this.click()
+
+      return true
     },
     call(...args) {
-      return Common.inject('call', ...args)
+      Common.inject('call', ...args)
+
+      return true
     },
   },
 
