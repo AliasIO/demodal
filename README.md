@@ -19,7 +19,7 @@ Install locally:
 
 * Clone this repository
 * Run `./run manifest v3` or copy `manifest-v3.json` to `manifest.json`
-* Go go `about:extensions`
+* Go to `about:extensions`
 * Enable 'Developer mode'
 * Click 'Load unpacked'
 * Select the project folder
