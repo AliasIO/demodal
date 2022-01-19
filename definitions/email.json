@@ -11,5 +11,8 @@
       "[aria-modal='true'] .klaviyo-close-form": "click"
     },
     "#shopify-section-newsletter-popup .modal__close": "click"
+  },
+  "*.npr.org": {
+    ".newsletter-stickybar": "remove"
   }
 }

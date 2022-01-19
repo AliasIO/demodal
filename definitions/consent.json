@@ -14,12 +14,13 @@
     ".cookie-bar__close": "click",
     "[aria-label='cookieconsent']": "remove",
     ".cookie-warning-modal": "remove",
-    "#cookie-notice": "remove"
+    "#cookie-notice": "remove",
+    "if $(#didomi-host)": {
+      "#didomi-host": "remove",
+      "body": "removeClass didomi-popup-open"
+    }
   },
   "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
     ".js-consent-banner": "remove"
-  },
-  "*.eldiario.es": {
-    "[class*='didomi-consent-popup__']": "remove"
   }
 }
