@@ -20,6 +20,6 @@
     ".js-consent-banner": "remove"
   },
   "*.eldiario.es": {
-    ".didomi-consent-popup__62f49e32-b476-46b4-9757-407895dd174e": "remove"
+    "[class*='didomi-consent-popup__']": "remove"
   }
 }
