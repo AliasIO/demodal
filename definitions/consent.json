@@ -18,5 +18,8 @@
   },
   "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
     ".js-consent-banner": "remove"
+  },
+  "*.eldiario.es": {
+    "[class*='didomi-consent-popup__']": "remove"
   }
 }
