@@ -322,6 +322,21 @@ const Common = {
 
       return true
     },
+    removeParent(level = 1) {
+      let node = this
+
+      for (let index = 0; index < level; index++) {
+        node = node ? node.parentNode : null
+      }
+
+      if (node) {
+        node.remove()
+
+        return true
+      } else {
+        return false
+      }
+    },
     removeIf(...args) {
       if (
         args.every((string) =>

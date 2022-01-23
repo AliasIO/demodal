@@ -19,5 +19,11 @@
       "html": "removeStyle",
       "body": "addStyle 'overflow: inherit; position: inherit;'"
     }
+  },
+  "*.simplywall.st": {
+    "if $(#modal-container)": {
+      "#modal-container": "remove",
+      "#root": "addStyle filter: none"
+    }
   }
 }

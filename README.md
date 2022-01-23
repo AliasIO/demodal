@@ -128,14 +128,15 @@ Actions are run when the condition is met, or if no condition is specified.
 
 ### Functions
 
-| Function      | Argument   | Description |
-|---------------|------------|-------------|
-| `remove`      |            | Remove the HTML element
-| `removeIf`    | String     | Remove the HTML element if its text content matches a string
-| `addClass`    | Class name | Add a class
-| `removeClass` | Class name | Remove a class
-| `addStyle`    | Styles     | Appends CSS to the style attribute
-| `removeStyle` |            | Clears the style attribute
-| `click`       |            | Click the HTML element
-| `call`        |            | Call the function. Any arguments will be passed to the function.
+| Function       | Argument   | Description |
+|----------------|------------|-------------|
+| `remove`       |            | Remove the HTML element.
+| `removeParent` | Number     | Remove parent node.
+| `removeIf`     | String     | Remove the HTML element if its text content matches a string.
+| `addClass`     | Class name | Add a class.
+| `removeClass`  | Class name | Remove a class.
+| `addStyle`     | Styles     | Appends CSS to the style attribute.
+| `removeStyle`  |            | Clears the style attribute.
+| `click`        |            | Click the HTML element.
+| `call`         |            | Call the function. Any arguments will be passed to the function.
 

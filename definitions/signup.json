@@ -1,6 +1,7 @@
 {
   "*": {
-    ".wbounce-modal": "removeIf newsletter"
+    ".wbounce-modal": "removeIf newsletter",
+    ".leadinModal": "remove"
   },
   "*.smh.com.au *.theage.com.au": {
     "[data-testid='registration-prompt']": "remove",
@@ -16,5 +17,11 @@
   },
   "*.theatlantic.com": {
     "#paywall[data-category^='nudge']": "remove"
+  },
+  "*.bloomberg.com": {
+    "#fortress-preblocked-container-root": "remove"
+  },
+  "*.ieee.org": {
+    ".lightbox-popup": "removeIf 'create an account'"
   }
 }

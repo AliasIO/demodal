@@ -4,6 +4,11 @@
   },
   "*.heraldsun.com.au": {
     ".DialogBox": "remove"
+  },
+  "*.simplywall.st": {
+    "if $([data-cy-id='careers-upsell'])": {
+      "[data-cy-id='careers-upsell']": "removeParent"
+    }
   }
 }
 

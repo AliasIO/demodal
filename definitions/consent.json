@@ -18,7 +18,9 @@
     "if $(#didomi-host)": {
       "#didomi-host": "remove",
       "body": "removeClass didomi-popup-open"
-    }
+    },
+    "#cookieBanner": "remove",
+    ".CookieConsent": "remove"
   },
   "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
     ".js-consent-banner": "remove"
