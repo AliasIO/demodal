@@ -24,5 +24,8 @@
   },
   "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
     ".js-consent-banner": "remove"
+  },
+  "*.deepl.com": {
+    ".dl_cookieBanner--buttonClose": "click"
   }
 }
