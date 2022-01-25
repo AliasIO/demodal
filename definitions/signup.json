@@ -23,5 +23,16 @@
   },
   "*.ieee.org": {
     ".lightbox-popup": "removeIf 'create an account'"
+  },
+  "*.afr.com": {
+    "if $([data-testid='SubscriptionPrompt-close'])": {
+      "[data-testid='SubscriptionPrompt-close']": "click"
+    }
+  },
+  "*.pinterest.com *.pinterest.com.au": {
+    "if $([data-test-id='giftWrap'])": {
+      "[data-test-id='giftWrap']": "remove",
+      "body": "removeStyle"
+    }
   }
 }
