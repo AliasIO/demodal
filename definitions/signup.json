@@ -34,5 +34,8 @@
       "[data-test-id='giftWrap']": "remove",
       "body": "removeStyle"
     }
+  },
+  "*.geeksforgeeks.org": {
+    ".login-modal-div": "remove"
   }
 }
