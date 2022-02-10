@@ -3,7 +3,8 @@
     "if $(#gateway-content)": {
       "#gateway-content": "remove",
       "#app > div > div": "removeClass *",
-      "#app > div > div > div:last-child": "remove"
+      "#app > div > div > div:last-child": "remove",
+      "#site-content": "removeStyle"
     }
   },
   "*.newyorker.com": {
@@ -18,7 +19,8 @@
       ".paywall-overlay": "remove",
       "html": "removeStyle",
       "body": "addStyle 'overflow: inherit; position: inherit;'"
-    }
+    },
+    ".softwall-overlay": "remove"
   },
   "*.simplywall.st": {
     "if $(#modal-container)": {

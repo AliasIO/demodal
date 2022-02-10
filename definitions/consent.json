@@ -7,25 +7,36 @@
     },
     "#cookie-banner": "remove",
     ".cookie-banner": "remove",
-    "if defined(OneTrust)": {
-      "OneTrust.Close": "call"
-    },
+    "#onetrust-consent-sdk": "remove",
     "#CybotCookiebotDialogBodyButtonDecline": "click",
     ".cookie-bar__close": "click",
     "[aria-label='cookieconsent']": "remove",
     ".cookie-warning-modal": "remove",
+    ".cookie-consent": "remove",
     "#cookie-notice": "remove",
+    "#cookie-bar": "remove",
     "if $(#didomi-host)": {
       "#didomi-host": "remove",
       "body": "removeClass didomi-popup-open"
     },
     "#cookieBanner": "remove",
-    ".CookieConsent": "remove"
+    "#cconsent-bar": "remove",
+    ".CookieConsent": "remove",
+    "#gdpr-banner": "remove",
+    "#gdpr-cookie-message": "remove",
+    ".cookie-notice": "remove",
+    ".cc-banner": "remove",
+    ".js-cookie-consent-overlay": "remove",
+    "#ccc": "remove",
+    "#iubenda-cs-banner": "remove"
   },
   "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
     ".js-consent-banner": "remove"
   },
   "*.deepl.com": {
     ".dl_cookieBanner--buttonClose": "click"
+  },
+  "*.lego.com": {
+    ".cookies-used-notice": "remove"
   }
 }

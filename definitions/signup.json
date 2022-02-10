@@ -34,5 +34,18 @@
       "[data-test-id='giftWrap']": "remove",
       "body": "removeStyle"
     }
+  },
+  "*.vic.gov.au": {
+    "#subscribe-banner-react": "remove"
+  },
+  "*.nature.com": {
+    ".c-site-messages--nature-briefing-email-variant": "remove"
+  },
+  "*.boredpanda.com": {
+    "if $(#subscribe-before-leaving)": {
+      "#subscribe-before-leaving": "remove",
+      "#modal-backdrop": "remove",
+      "body": "removeClass modal-open"
+    }
   }
 }

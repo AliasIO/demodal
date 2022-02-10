@@ -238,7 +238,9 @@ const Common = {
                         }
 
                         if (!Common.Actions[func]) {
-                          throw new Error(`Invalid action function: ${func}`)
+                          throw new Error(
+                            `Invalid action function: ${func} (${selector})`
+                          )
                         }
                       })
 
