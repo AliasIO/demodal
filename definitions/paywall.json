@@ -7,6 +7,12 @@
       "#site-content": "removeStyle"
     }
   },
+  "*.businessinsider.com": {
+    "if $('.dialog-base')": {
+      ".dialog-base": "remove",
+      "body": "removeClass js-dialog-open"
+    }
+  },
   "*.newyorker.com": {
     ".paywall-bar": "remove",
     ".paywall-modal": "remove"
