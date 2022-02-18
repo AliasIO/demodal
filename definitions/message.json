@@ -9,6 +9,9 @@
     "if $([data-cy-id='careers-upsell'])": {
       "[data-cy-id='careers-upsell']": "removeParent"
     }
+  },
+  "help.pandora.com": {
+    "$(#bot-root)": "remove"
   }
 }
 
