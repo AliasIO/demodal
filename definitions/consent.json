@@ -14,6 +14,7 @@
     ".cookie-warning-modal": "remove",
     ".cookie-consent": "remove",
     "#cookie-notice": "remove",
+    ".cookie-notice-big": "remove",
     "#cookie-bar": "remove",
     "if $(#didomi-host)": {
       "#didomi-host": "remove",
@@ -28,7 +29,15 @@
     ".cc-banner": "remove",
     ".js-cookie-consent-overlay": "remove",
     "#ccc": "remove",
-    "#iubenda-cs-banner": "remove"
+    "#iubenda-cs-banner": "remove",
+    ".wppopups-whole": "removeIf 'cookies'",
+    ".gdpr-disclaimer": "remove",
+    "._gdprDisclaimer": "remove",
+    ".ce-cookie-banner": "remove",
+    "if $(#acceptationCMPWall)": {
+      "#acceptationCMPWall": "remove",
+      "body": "removeStyle"
+    }
   },
   "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
     ".js-consent-banner": "remove"

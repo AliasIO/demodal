@@ -1,7 +1,11 @@
 {
   "*": {
-    ".wbounce-modal": "removeIf newsletter",
-    ".leadinModal": "remove"
+    ".wbounce-modal": "removeIf 'newsletter'",
+    ".leadinModal": "remove",
+    ".wppopups-whole": "removeIf 'sign up'",
+    ".exit-intent": "removeIf 'sign up'",
+    ".exit-intent-modal": "remove",
+    "[id^='smsbump-form']": "remove"
   },
   "*.smh.com.au *.theage.com.au": {
     "[data-testid='registration-prompt']": "remove",
@@ -46,6 +50,13 @@
       "#subscribe-before-leaving": "remove",
       "#modal-backdrop": "remove",
       "body": "removeClass modal-open"
+    }
+  },
+  "*.bbc.com": {
+    "if $(.tp-modal-open)": {
+      "body": "removeClass tp-modal-open",
+      ".tp-modal": "remove",
+      ".tp-backdrop": "remove"
     }
   }
 }

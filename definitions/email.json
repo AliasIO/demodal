@@ -10,7 +10,10 @@
     "if $([aria-modal='true'] .klaviyo-close-form)": {
       "[aria-modal='true'] .klaviyo-close-form": "click"
     },
-    "#shopify-section-newsletter-popup .modal__close": "click"
+    "#shopify-section-newsletter-popup .modal__close": "click",
+    ".close-newsletter": "click",
+    ".cp-popup-container": "removeIf 'subscribe'",
+    ".js_modal_exit_intent": "removeIf 'subscribe'"
   },
   "*.npr.org": {
     ".newsletter-stickybar": "remove"

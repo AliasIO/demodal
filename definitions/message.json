@@ -1,6 +1,9 @@
 {
   "*": {
-    "[id^='sp_message_container_']": "remove"
+    "if $([id^='sp_message_container_'])": {
+      "[id^='sp_message_container_']": "remove",
+      "html": "removeClass sp-message-open"
+    }
   },
   "*.heraldsun.com.au": {
     ".DialogBox": "remove"

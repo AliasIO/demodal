@@ -27,5 +27,14 @@
       "#modal-container": "remove",
       "#root": "addStyle filter: none"
     }
+  },
+  "*.theguardian.com": {
+    "#bottom-banner": "removeIf 'Start free trial'"
+  },
+  "*.bloomberg.com": {
+    "if $(#fortress-paywall-container-root)": {
+      "#fortress-paywall-container-root": "remove",
+      "body": "addStyle overflow: auto"
+    }
   }
 }
