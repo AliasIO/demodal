@@ -37,7 +37,10 @@
     "if $(#acceptationCMPWall)": {
       "#acceptationCMPWall": "remove",
       "body": "removeStyle"
-    }
+    },
+    ".cookies_message": "remove",
+    "#cookieConsent": "remove",
+    ".cookie-policy": "remove"
   },
   "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
     ".js-consent-banner": "remove"
@@ -47,5 +50,9 @@
   },
   "*.lego.com": {
     ".cookies-used-notice": "remove"
+  },
+  "*.redhat.com": {
+  	"#truste-consent-track": "remove",
+  	".redhat-cookie-banner": "remove"
   }
 }
