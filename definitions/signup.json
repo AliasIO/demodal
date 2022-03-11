@@ -58,5 +58,11 @@
       ".tp-modal": "remove",
       ".tp-backdrop": "remove"
     }
+  },
+  "vk.com": {
+  	"#page_bottom_banners_root": "remove",
+  	"if $(.UnauthActionBox)": {
+  		".JoinForm__notNowLink": "click"
+  	}
   }
 }
