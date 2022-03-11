@@ -43,7 +43,7 @@
     ".js-consent-banner": "remove"
   },
   "*.deepl.com": {
-    ".dl_cookieBanner--buttonClose": "click"
+    "#dl_cookieBanner": "remove"
   },
   "*.lego.com": {
     ".cookies-used-notice": "remove"
