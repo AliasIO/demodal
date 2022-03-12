@@ -40,7 +40,8 @@
     },
     ".cookies_message": "remove",
     "#cookieConsent": "remove",
-    ".cookie-policy": "remove"
+    ".cookie-policy": "remove",
+    "#cookieNoticeAlert": "remove"
   },
   "*.stackexchange.com *.superuser.com *.stackoverflow.com *.mathoverflow.net *.serverfault.com *.askubuntu.com *.stackapps.com": {
     ".js-consent-banner": "remove"
@@ -54,5 +55,8 @@
   "*.redhat.com": {
   	"#truste-consent-track": "remove",
   	".redhat-cookie-banner": "remove"
+  },
+  "*.openweathermap.org": {
+  	"#stick-footer-panel": "remove"
   }
 }
