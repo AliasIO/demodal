@@ -36,5 +36,16 @@
       "#fortress-paywall-container-root": "remove",
       "body": "addStyle overflow: auto"
     }
+  },
+  "*.weather.com": {
+    "if $(.tp-backdrop)": {
+      ".tp-backdrop": "remove"
+    },
+    "if $(.tp-modal)": {
+      ".tp-modal": "remove"
+    },
+    "if $(.tp-modal-open)": {
+      ".tp-modal-open": "removeClass tp-modal-open"
+    }
   }
 }
