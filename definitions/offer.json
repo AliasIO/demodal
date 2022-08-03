@@ -1,2 +1,8 @@
 {
+  "*.forbes.com": {
+    "[external-event='offer-close-modal']": "click"
+  },
+  "*.theconversation.com": {
+    ".promo": "remove"
+  }
 }

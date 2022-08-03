@@ -5,7 +5,8 @@
     ".wppopups-whole": "removeIf 'sign up'",
     ".exit-intent": "removeIf 'sign up'",
     ".exit-intent-modal": "remove",
-    "[id^='smsbump-form']": "remove"
+    "[id^='smsbump-form']": "remove",
+    "#ouibounce-modal": "remove"
   },
   "*.smh.com.au *.theage.com.au": {
     "[data-testid='registration-prompt']": "remove",
@@ -58,5 +59,9 @@
       ".tp-modal": "remove",
       ".tp-backdrop": "remove"
     }
+  },
+  "*.ibtimes.com": {
+    ".grwf2_backdrop": "remove",
+    ".wf2-popover": "remove"
   }
 }

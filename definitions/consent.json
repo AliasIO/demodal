@@ -34,6 +34,13 @@
     ".gdpr-disclaimer": "remove",
     "._gdprDisclaimer": "remove",
     ".ce-cookie-banner": "remove",
+    ".cookie-msg": "remove",
+    ".cookie-panel": "remove",
+    ".cookie-popup": "remove",
+    "#cookie-popup-wrapper": "remove",
+    "[data-component='CookieBanner']": "remove",
+    ".t-consentPrompt": "remove",
+    "#privacy-consent": "remove",
     "if $(#acceptationCMPWall)": {
       "#acceptationCMPWall": "remove",
       "body": "removeStyle"

@@ -20,7 +20,8 @@
       "html": "removeStyle",
       "body": "addStyle 'overflow: inherit; position: inherit;'"
     },
-    ".softwall-overlay": "remove"
+    ".softwall-overlay": "remove",
+    "[id^='softwall-']": "remove"
   },
   "*.simplywall.st": {
     "if $(#modal-container)": {
@@ -35,6 +36,19 @@
     "if $(#fortress-paywall-container-root)": {
       "#fortress-paywall-container-root": "remove",
       "body": "addStyle overflow: auto"
+    }
+  },
+  "*.nikkei.com": {
+    ".pw-widget--benefit-pop-up .pianoj-ribbon-close": "click"
+  },
+  "*.telegraph.co.uk": {
+    ".martech-modal-component-overlay": "remove"
+  },
+  "*.nationalgeographic.com": {
+    "if $(.EmailStickyFooter__Modal)": {
+      ".EmailStickyFooter__Modal": "remove",
+      ".Scroll--locked": "removeClass Scroll--locked",
+      "body": "removeStyle"
     }
   }
 }
