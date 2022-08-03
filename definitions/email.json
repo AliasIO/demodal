@@ -17,5 +17,8 @@
   },
   "*.npr.org": {
     ".newsletter-stickybar": "remove"
+  },
+  "*.redhat.com": {
+  	".subscribe-sidebar": "remove"
   }
 }

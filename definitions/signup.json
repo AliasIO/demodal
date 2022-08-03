@@ -63,5 +63,11 @@
   "*.ibtimes.com": {
     ".grwf2_backdrop": "remove",
     ".wf2-popover": "remove"
+  },
+  "vk.com": {
+  	"#page_bottom_banners_root": "remove",
+  	"if $(.UnauthActionBox)": {
+  		".UnauthActionBox__close": "click"
+  	}
   }
 }
